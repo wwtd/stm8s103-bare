@@ -14,7 +14,7 @@ $(TARGET).ihx: $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
 stm8flash:
-	stm8flash -c stlinkv2 -p stm8s103f3 -w blink.ihx
+	stm8flash -c stlinkv2 -p stm8s103f3 -w $(TARGET).ihx
 
 clean:
 	rm -f *.asm *.lst *.rel *.rst *.sym *.ihx *.lk *.map *.cdb
