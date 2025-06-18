@@ -2,6 +2,7 @@
 #include "uart-reg.h"
 #include "clk-reg.h"
 #include "stddef.h"
+#include "stdio.h"
 
 void delay(uint16_t cnt)
 {
@@ -22,13 +23,10 @@ void uart1_send_char(const char ch)
     while(!(UART_1_BASE_ADDR->SR & (1<<6)));
 }
 
-void uart1_send_string(const char * str)
+int putchar(int ch)
 {
-    while(*str != NULL)
-    {
-        uart1_send_char(*str);
-        str++;
-    }
+    uart1_send_char(ch);
+    return 0;
 }
 
 void on_board_led_init()
@@ -51,7 +49,7 @@ void main()
     uart1_init();
     while (1) {
         on_board_led_blink();
-        uart1_send_string("hello\r\n");
+        printf("hello\r\n");
         delay(10000);
     }
 }
