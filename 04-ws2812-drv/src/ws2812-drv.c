@@ -1,5 +1,6 @@
 #include "gpio-reg.h"
 #include "stdint.h"
+#include <stdint.h>
 
 #define WS2812_SERIAL_NUM       (16U)
 #define WS2812_CONTRL_BIT       (24U)
@@ -82,4 +83,14 @@ void ws2812_refresh(void)
     }
   }
   ws2812_reset;
+}
+
+void ws2812_blink(void)
+{
+	for(uint16_t i = 0; i < WS2812_SERIAL_NUM; ++i)
+	{
+		gs_ws2812_config[i] +=10;
+		gs_ws2812_config[i] %=0x1000000;
+	}
+	return;
 }

@@ -1,6 +1,6 @@
 #include "stdint.h"
 
-void faker_delay(uint16_t cnt)
+void faker_delay(uint32_t cnt)
 {
-    for (volatile uint16_t i = 0; i < cnt; ++i);
+    for (volatile uint32_t i = 0; i < cnt; ++i);
 }
