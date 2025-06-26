@@ -20,7 +20,22 @@ void main()
     on_board_led_init();
     uart1_init();
     ws2812_init();
-    ws2812_set_all_color(0xFFFFFF);
+    // ws2812_set_all_color(0xFFFFFF);
+    for(int i = 0; i < 16; ++i)
+    {
+        if(i%3 == 0)
+        {
+            ws2812_set_one_color(i, 0xFF);
+        }
+        else if(i%3 == 1)
+        {
+            ws2812_set_one_color(i, 0xFF00);
+        }
+        else
+        {
+            ws2812_set_one_color(i, 0xFF0000);
+        }
+    }
     while (1)
     {
         // printf("hello\r\n");

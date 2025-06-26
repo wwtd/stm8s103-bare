@@ -1,0 +1,15 @@
+-muwx
+-i ws2812-ctrl.ihx
+-b HOME = 0x8000
+-b DATA = 0x0001
+-k /usr/bin/../share/sdcc/lib/stm8
+-k /usr/share/sdcc/lib/stm8
+-l stm8
+debug/clk_ctrl.rel
+debug/faker_delay.rel
+debug/main.rel
+debug/on_board_led.rel
+debug/uart1.rel
+debug/ws2812-drv.rel
+
+-e
