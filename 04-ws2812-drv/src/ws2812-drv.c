@@ -1,9 +1,12 @@
 #include "gpio-reg.h"
 #include "stdint.h"
-#include <stdint.h>
+#include "string.h"
 
 #define WS2812_SERIAL_NUM       (16U)
 #define WS2812_CONTRL_BIT       (24U)
+#define ws2812_COLOR_GREEN		(0xFFU)
+#define ws2812_COLOR_RED		(0xFF00U)
+#define ws2812_COLOR_BLUE		(0xFF0000U)
 static uint32_t gs_ws2812_config[WS2812_SERIAL_NUM] = {0};
 
 
@@ -93,4 +96,25 @@ void ws2812_blink(void)
 		gs_ws2812_config[i] %=0x1000000;
 	}
 	return;
+}
+
+void ws2812_set_all_color(uint32_t color)
+{
+  if(color > 0xFFFFFF)
+  {
+    return;
+  }
+  for(int i =0; i< WS2812_SERIAL_NUM; ++i)
+  {
+	gs_ws2812_config[i] = color;
+  }
+}
+
+void ws2812_set_one_color(uint16_t index, uint32_t color)
+{
+  if((color > 0xFFFFFF) || (index > WS2812_SERIAL_NUM))
+  {
+    return;
+  }
+  gs_ws2812_config[index] = color;
 }

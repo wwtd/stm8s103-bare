@@ -10,6 +10,8 @@ extern void on_board_led_blink(void);
 extern void ws2812_init(void);
 extern void ws2812_refresh(void);
 extern void ws2812_blink(void);
+extern void ws2812_set_all_color(uint32_t color);
+extern void ws2812_set_one_color(uint16_t index, uint32_t color);
 
 
 void main()
@@ -18,11 +20,12 @@ void main()
     on_board_led_init();
     uart1_init();
     ws2812_init();
+    ws2812_set_all_color(0xFFFFFF);
     while (1)
     {
         // printf("hello\r\n");
         ws2812_refresh();
-        ws2812_blink();
+        // ws2812_blink();
         faker_delay(100000);
     }
 }
