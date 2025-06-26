@@ -38,7 +38,7 @@ void main()
     }
     while (1)
     {
-        // printf("hello\r\n");
+        printf("hello\r\n");
         ws2812_refresh();
         // ws2812_blink();
         faker_delay(100000);

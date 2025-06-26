@@ -6,8 +6,8 @@
 void uart1_init()
 {
     CLK_BASE_ADDR->PCKENR1 |= (1 << 3);
-    UART_1_BASE_ADDR->BRR2 = 0x00;
-    UART_1_BASE_ADDR->BRR1 = 0x0D;
+    UART_1_BASE_ADDR->BRR2 = 0x0A;
+    UART_1_BASE_ADDR->BRR1 = 0x08;
     UART_1_BASE_ADDR->CR2 = ((1<<2)|(1<<3));
 }
 
