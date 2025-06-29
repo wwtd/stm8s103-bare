@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "stdint.h"
+#include <stdint.h>
 
 
 extern void faker_delay(uint32_t cnt);
@@ -13,6 +14,9 @@ extern void ws2812_blink(void);
 extern void ws2812_set_all_color(uint32_t color);
 extern void ws2812_set_one_color(uint16_t index, uint32_t color);
 extern uint8_t * get_uid(void);
+extern void eeprom_dump(void);
+extern void eeprom_set(uint16_t index, uint8_t * data, uint16_t len);
+extern void eeprom_get(uint16_t index, uint8_t * buffer, uint16_t len);
 
 
 void main()
@@ -40,6 +44,15 @@ void main()
 
     uint8_t * tmp_uid = get_uid();
 
+    uint8_t test_arr[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+    eeprom_set(0, test_arr, sizeof(test_arr));
+    uint8_t print_arr[16] = {0};
+    eeprom_get(0, print_arr, 8);
+    for(int j = 0; j< sizeof(print_arr); ++j)
+    {
+        printf("%02X", print_arr[j]);
+    }
+    printf("\r\n");
     while (1)
     {
         printf("UID: ");
