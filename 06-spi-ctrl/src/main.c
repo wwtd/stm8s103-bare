@@ -22,7 +22,7 @@ extern void spi_write(uint8_t data);
 extern uint8_t spi_read(void);
 extern void chip_select(void);
 extern void chip_deselect(void);
-
+extern uint16_t ws25q64_read_id();
 
 void main()
 {
@@ -39,12 +39,14 @@ void main()
     printf("\r\n");
     while (1)
     {
-        chip_select();
-        for(uint8_t i = 0xAA; i< 0xFA; i++)
-        {
-            spi_write(i);
-        }
-        chip_deselect();
+        // chip_select();
+        // for(uint8_t i = 0xAA; i< 0xFA; i++)
+        // {
+        //     spi_write(i);
+        // }
+        // chip_deselect();
+        uint16_t tmp_id = ws25q64_read_id();
+        printf("flash ID: %04X\r\n", tmp_id);
         faker_delay(100000);
     }
 }
