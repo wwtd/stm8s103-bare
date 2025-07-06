@@ -17,6 +17,11 @@ extern uint8_t * get_uid(void);
 extern void eeprom_dump(void);
 extern void eeprom_set(uint16_t index, uint8_t * data, uint16_t len);
 extern void eeprom_get(uint16_t index, uint8_t * buffer, uint16_t len);
+extern void spi_init(void);
+extern void spi_write(uint8_t data);
+extern uint8_t spi_read(void);
+extern void chip_select(void);
+extern void chip_deselect(void);
 
 
 void main()
@@ -24,45 +29,22 @@ void main()
     enable_HSI_16MHz();
     on_board_led_init();
     uart1_init();
-    ws2812_init();
-    // ws2812_set_all_color(0xFFFFFF);
-    for(int i = 0; i < 16; ++i)
-    {
-        if(i%3 == 0)
-        {
-            ws2812_set_one_color(i, 0xFF);
-        }
-        else if(i%3 == 1)
-        {
-            ws2812_set_one_color(i, 0xFF00);
-        }
-        else
-        {
-            ws2812_set_one_color(i, 0xFF0000);
-        }
-    }
-
+    spi_init();
     uint8_t * tmp_uid = get_uid();
-
-    uint8_t test_arr[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
-    eeprom_set(0, test_arr, sizeof(test_arr));
-    uint8_t print_arr[16] = {0};
-    eeprom_get(0, print_arr, 8);
-    for(int j = 0; j< sizeof(print_arr); ++j)
+    printf("UID: ");
+    for(int i = 0; i< 12; ++i)
     {
-        printf("%02X", print_arr[j]);
+        printf("%02X", tmp_uid[i]);
     }
     printf("\r\n");
     while (1)
     {
-        printf("UID: ");
-        for(int i = 0; i< 12; ++i)
+        chip_select();
+        for(uint8_t i = 0xAA; i< 0xFA; i++)
         {
-            printf("%02X", tmp_uid[i]);
+            spi_write(i);
         }
-        printf("\r\n");
-        ws2812_refresh();
-        // ws2812_blink();
+        chip_deselect();
         faker_delay(100000);
     }
 }
