@@ -1,0 +1,57 @@
+XH3
+H B areas 4 global symbols
+M on_chip_flash
+O -mstm8
+S .__.ABS. Def000000
+S ___memcpy Ref000000
+A _CODE size 0 flags 0 addr 0
+A DATA size 0 flags 0 addr 0
+A INITIALIZED size 0 flags 0 addr 0
+A DABS size 0 flags 8 addr 0
+A HOME size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CONST size 0 flags 0 addr 0
+A INITIALIZER size 0 flags 0 addr 0
+A CODE size 69 flags 0 addr 0
+S _flash_get Def000050
+S _flash_set Def000000
+A CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 09
+T 00 00 00 52 06 1F 03 72 FB 0B A3 1F 80 22 3F 35
+R 00 00 00 09
+T 00 00 0D AE 50 64 35 56 50 64
+R 00 00 00 09
+T 00 00 14
+R 00 00 00 09
+T 00 00 14 C6 50 5F A5 02 27 F9 1E 03 1C 80 7F 1F
+R 00 00 00 09
+T 00 00 21 01 5F 1F 05
+R 00 00 00 09
+T 00 00 25
+R 00 00 00 09
+T 00 00 25 1E 05 13 0B 24 1B 1E 01 72 FB 05 16 09
+R 00 00 00 09
+T 00 00 32 72 F9 05 90 F6 F7
+R 00 00 00 09
+T 00 00 38
+R 00 00 00 09
+T 00 00 38 C6 50 5F A5 04 27 F9 1E 05 5C 1F 05 20
+R 00 00 00 09
+T 00 00 45 DF
+R 00 00 00 09
+T 00 00 46
+R 00 00 00 09
+T 00 00 46 A4 FD C7 50 5F
+R 00 00 00 09
+T 00 00 4B
+R 00 00 00 09
+T 00 00 4B 1E 07 5B 0C FC
+R 00 00 00 09
+T 00 00 50
+R 00 00 00 09
+T 00 00 50 52 02 16 07 1C 80 7F 1F 01 1E 05 90 89
+R 00 00 00 09
+T 00 00 5D 16 03 90 89 CD 00 00 1E 03 5B 08 FC
+R 00 00 00 09 02 08 00 01

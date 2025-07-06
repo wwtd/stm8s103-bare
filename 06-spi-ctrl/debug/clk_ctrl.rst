@@ -1,0 +1,77 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.2.0 #13081 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module clk_ctrl
+                                      6 	.optsdcc -mstm8
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _enable_HSI_16MHz
+                                     12 ;--------------------------------------------------------
+                                     13 ; ram data
+                                     14 ;--------------------------------------------------------
+                                     15 	.area DATA
+                                     16 ;--------------------------------------------------------
+                                     17 ; ram data
+                                     18 ;--------------------------------------------------------
+                                     19 	.area INITIALIZED
+                                     20 ;--------------------------------------------------------
+                                     21 ; absolute external ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area DABS (ABS)
+                                     24 
+                                     25 ; default segment ordering for linker
+                                     26 	.area HOME
+                                     27 	.area GSINIT
+                                     28 	.area GSFINAL
+                                     29 	.area CONST
+                                     30 	.area INITIALIZER
+                                     31 	.area CODE
+                                     32 
+                                     33 ;--------------------------------------------------------
+                                     34 ; global & static initialisations
+                                     35 ;--------------------------------------------------------
+                                     36 	.area HOME
+                                     37 	.area GSINIT
+                                     38 	.area GSFINAL
+                                     39 	.area GSINIT
+                                     40 ;--------------------------------------------------------
+                                     41 ; Home
+                                     42 ;--------------------------------------------------------
+                                     43 	.area HOME
+                                     44 	.area HOME
+                                     45 ;--------------------------------------------------------
+                                     46 ; code
+                                     47 ;--------------------------------------------------------
+                                     48 	.area CODE
+                                     49 ;	src/clk_ctrl.c: 4: void enable_HSI_16MHz(void)
+                                     50 ;	-----------------------------------------
+                                     51 ;	 function enable_HSI_16MHz
+                                     52 ;	-----------------------------------------
+      008096                         53 _enable_HSI_16MHz:
+                                     54 ;	src/clk_ctrl.c: 7: CLK_BASE_ADDR->ICKR |= (1 << 0); // HSIEN = 1
+      008096 72 10 50 C0      [ 1]   55 	bset	0x50c0, #0
+                                     56 ;	src/clk_ctrl.c: 10: while ((CLK_BASE_ADDR->ICKR & (1 << 1)) == 0); // HSIRDY = 1
+      00809A                         57 00101$:
+      00809A 72 03 50 C0 FB   [ 2]   58 	btjf	0x50c0, #1, 00101$
+                                     59 ;	src/clk_ctrl.c: 13: CLK_BASE_ADDR->SWR = 0x01; // SW[2:0] = 001 => HSI
+      00809F 35 01 50 C4      [ 1]   60 	mov	0x50c4+0, #0x01
+                                     61 ;	src/clk_ctrl.c: 16: while ((CLK_BASE_ADDR->CMSR & 0x07) != 0x01);
+      0080A3                         62 00104$:
+      0080A3 C6 50 C3         [ 1]   63 	ld	a, 0x50c3
+      0080A6 A4 07            [ 1]   64 	and	a, #0x07
+      0080A8 97               [ 1]   65 	ld	xl, a
+      0080A9 4F               [ 1]   66 	clr	a
+      0080AA 95               [ 1]   67 	ld	xh, a
+      0080AB 5A               [ 2]   68 	decw	x
+      0080AC 26 F5            [ 1]   69 	jrne	00104$
+                                     70 ;	src/clk_ctrl.c: 19: CLK_BASE_ADDR->CKDIVR = 0x00; // HSIDIV = 1, CPUDIV = 1
+      0080AE 35 00 50 C6      [ 1]   71 	mov	0x50c6+0, #0x00
+                                     72 ;	src/clk_ctrl.c: 22: }
+      0080B2 81               [ 4]   73 	ret
+                                     74 	.area CODE
+                                     75 	.area CONST
+                                     76 	.area INITIALIZER
+                                     77 	.area CABS (ABS)
