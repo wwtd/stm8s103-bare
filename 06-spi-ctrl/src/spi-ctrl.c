@@ -43,5 +43,6 @@ void chip_select(void)
 
 void chip_deselect(void)
 {
+    while(SPI_BASE_ADDR->sr & 1<<7);
     GPIO_C_BASE_ADDR->ODR |= (1<<4);
 }
