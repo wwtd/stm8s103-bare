@@ -29,6 +29,7 @@ extern void w25q64_erase_chip(void);
 extern void w25q64_write(uint8_t * buffer, uint32_t addr, uint16_t numbyte);
 extern void i2c_init();
 extern void i2c_test();
+extern void ssd1306_init();
 
 void main()
 {
@@ -44,10 +45,10 @@ void main()
         printf("%02X", tmp_uid[i]);
     }
     printf("\r\n");
-
+    ssd1306_init();
     while (1)
     {
         faker_delay(1000000);
-        i2c_test();
+        // i2c_test();
     }
 }
