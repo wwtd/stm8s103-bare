@@ -36,12 +36,9 @@ uint8_t i2c_send_addr(uint8_t addr)
 {
     I2C_BASE_ADDR->dr = 0x78;
     
-    uint32_t timeout = 100000;
-    while(!(I2C_BASE_ADDR->sr1 & 0x02) && timeout--);
+    while(!(I2C_BASE_ADDR->sr1 & 0x02));
     
-    if(timeout == 0) {
-        return 1;
-    }
+
 
     (void)(I2C_BASE_ADDR->sr1);
     (void)(I2C_BASE_ADDR->sr3);
@@ -55,11 +52,9 @@ uint8_t i2c_send_addr(uint8_t addr)
 
 uint8_t i2c_send_byte(uint8_t byte)
 {
-    uint32_t timeout = 100000;
     I2C_BASE_ADDR->dr = byte;
 
-    while(!(I2C_BASE_ADDR->sr1 & 0x80) && timeout--);
-    if(timeout == 0) return 1;
+    while(!(I2C_BASE_ADDR->sr1 & 0x80));
     return 0;
 }
 
