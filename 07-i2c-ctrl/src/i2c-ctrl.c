@@ -2,6 +2,10 @@
 #include "i2c-reg.h"
 #include "stdint.h"
 
+#define I2C_SR1     (*(volatile uint8_t*)0x5217)
+#define I2C_SR2     (*(volatile uint8_t*)0x5218)
+#define I2C_SR3     (*(volatile uint8_t*)0x5219)
+
 void i2c_init()
 {
     // GPIO config
@@ -24,11 +28,12 @@ void i2c_start()
 {
     I2C_BASE_ADDR->cr2 |= (1<<0);
     while(!(I2C_BASE_ADDR->sr1 & (1<<0)));
-    (void)I2C_BASE_ADDR->sr1; 
+    (void)I2C_SR1;
 }
 
 void i2c_stop()
 {
+    while((I2C_BASE_ADDR->sr1 & 0x4) == 0);
     I2C_BASE_ADDR->cr2 |= (1<<1);
 }
 
@@ -37,15 +42,9 @@ uint8_t i2c_send_addr(uint8_t addr)
     I2C_BASE_ADDR->dr = 0x78;
     
     while(!(I2C_BASE_ADDR->sr1 & 0x02));
-    
 
-
-    (void)(I2C_BASE_ADDR->sr1);
-    (void)(I2C_BASE_ADDR->sr3);
-    
-    if((I2C_BASE_ADDR->sr3 & 0x07) != 0x07) {
-        return 2;
-    }
+    (void)I2C_SR1;
+    (void)I2C_SR3;
 
     return 0;
 }

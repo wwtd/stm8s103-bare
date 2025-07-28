@@ -1,5 +1,6 @@
 #include "stdint.h"
 #include <stdint.h>
+#include "stdio.h"
 
 extern void i2c_start();
 extern void i2c_stop();
@@ -37,7 +38,10 @@ void ssd1306_write_buffer(uint8_t * buffer, uint16_t len)
     i2c_stop();
 }
 
-
+void ssd1306_turn_all_on()
+{
+    ssd1306_write_cmd(0xA5);
+}
 
 void ssd1306_init()
 {
@@ -58,7 +62,6 @@ void ssd1306_init()
         0xA4,         // Resume to RAM content display
         0xA6,         // Normal display (not inverted)
         0xAF,          // Display ON
-        0xA5
     };
     for (uint8_t i = 0; i < sizeof(init_seq); i++) {
         ssd1306_write_cmd(init_seq[i]);
