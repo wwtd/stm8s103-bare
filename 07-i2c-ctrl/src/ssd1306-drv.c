@@ -1,11 +1,17 @@
 #include "stdint.h"
-#include <stdint.h>
 #include "stdio.h"
+#include "string.h"
+#include <stdint.h>
 
 extern void i2c_start();
 extern void i2c_stop();
 extern uint8_t i2c_send_addr(uint8_t addr);
 extern uint8_t i2c_send_byte(uint8_t byte);
+
+#define SSD1306_WIDTH   (128)
+#define SSD1306_HEIGHT  (64)
+#define SSD1306_PAGES   (SSD1306_HEIGHT/8)
+uint8_t gs_ssd1306_display_buffer[SSD1306_WIDTH * SSD1306_PAGES] = {0};
 
 
 void ssd1306_write_cmd(uint8_t cmd)
@@ -43,6 +49,20 @@ void ssd1306_turn_all_on()
     ssd1306_write_cmd(0xA5);
 }
 
+void ssd1306_flush()
+{
+    for (uint8_t page = 0; page < SSD1306_PAGES; page++) {
+        ssd1306_write_cmd(0xB0 | page);        // Page address
+        ssd1306_write_cmd(0x00);               // Column low
+        ssd1306_write_cmd(0x10);               // Column high
+
+       for(int i = 0; i < SSD1306_WIDTH; ++i)
+       {
+            ssd1306_write_data(gs_ssd1306_display_buffer[page * SSD1306_WIDTH + i]);
+       }
+    }
+}
+
 void ssd1306_init()
 {
     static const uint8_t init_seq[] = {
@@ -66,4 +86,10 @@ void ssd1306_init()
     for (uint8_t i = 0; i < sizeof(init_seq); i++) {
         ssd1306_write_cmd(init_seq[i]);
     }
+
+    for(uint16_t i = 0; i< SSD1306_WIDTH * 8; ++i)
+    {
+        gs_ssd1306_display_buffer[i] = 0xFF;
+    }
+    ssd1306_flush();
 }
