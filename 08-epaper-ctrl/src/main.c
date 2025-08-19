@@ -30,25 +30,20 @@ extern void w25q64_write(uint8_t * buffer, uint32_t addr, uint16_t numbyte);
 extern void i2c_init();
 extern void i2c_test();
 extern void ssd1306_init();
+extern void epaper_display_init();
+extern void ssd1680_display_frame(const uint8_t *image_bw);
 
 void main()
 {
     enable_HSI_16MHz();
-    on_board_led_init();
     uart1_init();
     spi_init();
-    i2c_init();
-    uint8_t * tmp_uid = get_uid();
-    printf("UID: ");
-    for(int i = 0; i< 12; ++i)
-    {
-        printf("%02X", tmp_uid[i]);
-    }
-    printf("\r\n");
-    ssd1306_init();
+    epaper_display_init();
+    ssd1680_display_frame(NULL);
+
     while (1)
     {
         faker_delay(1000000);
-        // i2c_test();
+        printf("hello\r\n");
     }
 }
